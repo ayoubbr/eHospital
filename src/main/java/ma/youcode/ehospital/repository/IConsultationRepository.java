@@ -18,8 +18,6 @@ public interface IConsultationRepository {
 
     Consultation findById(int id);
 
-    void cancel(Consultation consultation);
-
     List<Consultation> findByPatient(Patient patient);
 
     List<Consultation> findByDoctor(Doctor doctor);
