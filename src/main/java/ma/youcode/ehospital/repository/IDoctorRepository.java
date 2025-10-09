@@ -10,7 +10,7 @@ public interface IDoctorRepository {
 
     Doctor update(Doctor doctor);
 
-    void delete(Doctor doctor);
+    void delete(int id);
 
     List<Doctor> findAll();
 

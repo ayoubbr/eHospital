@@ -11,7 +11,7 @@ public interface IRoomRepository {
 
     Room update(Room room);
 
-    void delete(Room room);
+    void delete(int id);
 
     List<Room> findAll();
 

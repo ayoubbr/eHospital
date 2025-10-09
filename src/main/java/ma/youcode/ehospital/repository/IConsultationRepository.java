@@ -12,7 +12,7 @@ public interface IConsultationRepository {
 
     Consultation update(Consultation consultation);
 
-    void delete(Consultation consultation);
+    void delete(int id);
 
     List<Consultation> findAll();
 

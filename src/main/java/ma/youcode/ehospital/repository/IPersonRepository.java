@@ -10,7 +10,7 @@ public interface IPersonRepository {
 
     Person update(Person person);
 
-    void delete(Person person);
+    void delete(int id);
 
     List<Person> findAll();
 

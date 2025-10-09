@@ -9,7 +9,7 @@ public interface IDepartmentRepository {
 
     Department update(Department department);
 
-    void delete(Department department);
+    void delete(int id);
 
     List<Department> findAll();
 

@@ -5,22 +5,19 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.model.Status;
+import ma.youcode.ehospital.repository.impl.DepartmentRepositoryImpl;
+
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit")) {
-            EntityManager em = emf.createEntityManager();
-            em.getTransaction().begin();
 
-            Department department = new Department();
-            department.setName("Department 1");
-            em.persist(department);
+//        DepartmentRepositoryImpl departmentRepository = new DepartmentRepositoryImpl();
+//
+//        List<Department> all = departmentRepository.findAll();
+//
+//        System.out.println(all);
 
-            em.getTransaction().commit();
-            em.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
