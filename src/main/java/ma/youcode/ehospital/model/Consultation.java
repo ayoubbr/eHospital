@@ -1,6 +1,7 @@
 package ma.youcode.ehospital.model;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,6 +26,7 @@ public class Consultation {
     private Patient patient;
     @ManyToOne
     @JoinColumn(name = "doctor_id")
+    @ToString.Exclude
     private Doctor doctor;
     @ManyToOne
     @JoinColumn(name = "room_id")

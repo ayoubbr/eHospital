@@ -1,69 +1,63 @@
 package ma.youcode.ehospital.repository.impl;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.EntityTransaction;
 import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.repository.IDepartmentRepository;
+import ma.youcode.ehospital.util.JPAUtil;
 
 import java.util.List;
 
 public class DepartmentRepositoryImpl implements IDepartmentRepository {
     @Override
     public Department save(Department department) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager em = JPAUtil.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
         em.persist(department);
-        em.getTransaction().commit();
+        transaction.commit();
         em.close();
-        emf.close();
         return department;
     }
 
     @Override
     public Department update(Department department) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager em = JPAUtil.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
         em.merge(department);
-        em.getTransaction().commit();
+        transaction.commit();
         em.close();
-        emf.close();
         return department;
     }
 
     @Override
     public void delete(int id) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager em = JPAUtil.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
         Department department = em.find(Department.class, id);
         em.remove(department);
-        em.getTransaction().commit();
+        transaction.commit();
         em.close();
-        emf.close();
     }
 
     @Override
     public List<Department> findAll() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager em = JPAUtil.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
         List<Department> departments = em.createQuery("from Department", Department.class).getResultList();
-        em.getTransaction().commit();
+        transaction.commit();
         em.close();
-        emf.close();
         return departments;
     }
 
     @Override
     public Department findById(int id) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         Department department = em.find(Department.class, id);
         em.close();
-        emf.close();
         return department;
     }
 }

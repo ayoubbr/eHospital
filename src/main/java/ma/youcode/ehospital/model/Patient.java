@@ -1,6 +1,7 @@
 package ma.youcode.ehospital.model;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class Patient extends Person {
         return "Patient{" +
                 "weight=" + weight +
                 ", height=" + height +
-                ", consultations=" + consultations +
+                ", consultationsCount=" + (consultations != null ? consultations.size() : 0) +
                 '}';
     }
 }
