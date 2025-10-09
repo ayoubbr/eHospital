@@ -9,11 +9,13 @@ import ma.youcode.ehospital.model.Status;
 public class Main {
 
     public static void main(String[] args) {
-
-
         try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit")) {
             EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
+
+            Department department = new Department();
+            department.setName("Department 1");
+            em.persist(department);
 
             em.getTransaction().commit();
             em.close();

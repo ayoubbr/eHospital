@@ -3,7 +3,6 @@
   <persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- List your entity classes -->
-    <class>ma.youcode.ehospital.model.Department</class>
 
     <properties>
       <!-- Database connection -->
