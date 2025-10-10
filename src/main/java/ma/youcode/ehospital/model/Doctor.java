@@ -14,11 +14,11 @@ public class Doctor extends Person {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Consultation> consultations;
 
-    public Doctor(String firstName, String lastName, String email, String password, String role, String specialty, Department department, List<Consultation> consultations) {
-        super(firstName, lastName, email, password, role);
+    public Doctor(int id, String firstName, String lastName, String email, String password, String role, String specialty, Department department, List<Consultation> consultations) {
+        super(id, firstName, lastName, email, password, role);
         this.specialty = specialty;
         this.department = department;
         this.consultations = consultations;
@@ -62,7 +62,7 @@ public class Doctor extends Person {
         return "Doctor{" +
                 "specialty='" + specialty + '\'' +
                 ", department=" + department +
-                ", consultations=" + consultations +
+                ", consultationsCount=" + (consultations != null ? consultations.size() : 0) +
                 '}';
     }
 }

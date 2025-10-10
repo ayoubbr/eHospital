@@ -13,11 +13,11 @@ public class Patient extends Person {
     private float weight;
     private float height;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Consultation> consultations;
 
-    public Patient(String firstName, String lastName, String email, String password, String role, float weight, float height, List<Consultation> consultations) {
-        super(firstName, lastName, email, password, role);
+    public Patient(int id, String firstName, String lastName, String email, String password, String role, float weight, float height, List<Consultation> consultations) {
+        super(id, firstName, lastName, email, password, role);
         this.weight = weight;
         this.height = height;
         this.consultations = consultations;

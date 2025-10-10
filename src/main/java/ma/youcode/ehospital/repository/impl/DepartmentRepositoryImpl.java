@@ -45,10 +45,7 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository {
     @Override
     public List<Department> findAll() {
         EntityManager em = JPAUtil.getEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
         List<Department> departments = em.createQuery("from Department", Department.class).getResultList();
-        transaction.commit();
         em.close();
         return departments;
     }

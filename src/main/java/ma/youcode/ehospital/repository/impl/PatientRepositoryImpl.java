@@ -47,10 +47,7 @@ public class PatientRepositoryImpl implements IPatientRepository {
     @Override
     public List<Patient> findAll() {
         EntityManager em = JPAUtil.getEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
         List<Patient> patients = em.createQuery("from Patient").getResultList();
-        transaction.commit();
         em.close();
         return patients;
     }
@@ -58,10 +55,7 @@ public class PatientRepositoryImpl implements IPatientRepository {
     @Override
     public Patient findById(int id) {
         EntityManager em = JPAUtil.getEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
         Patient patient = em.find(Patient.class, id);
-        transaction.commit();
         em.close();
         return patient;
     }

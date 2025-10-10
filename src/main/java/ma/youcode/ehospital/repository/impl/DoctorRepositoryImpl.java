@@ -44,9 +44,7 @@ public class DoctorRepositoryImpl implements IDoctorRepository {
     @Override
     public List<Doctor> findAll() {
         EntityManager em = JPAUtil.getEntityManager();
-        em.getTransaction().begin();
         List<Doctor> doctors = em.createQuery("from Doctor").getResultList();
-        em.getTransaction().commit();
         em.close();
         return doctors;
     }
@@ -62,11 +60,9 @@ public class DoctorRepositoryImpl implements IDoctorRepository {
     @Override
     public List<Doctor> findDoctorsByDepartment(Department department) {
         EntityManager em = JPAUtil.getEntityManager();
-        em.getTransaction().begin();
         Query query = em.createQuery("from Doctor where department = :department");
         query.setParameter("department", department);
         List<Doctor> doctors = query.getResultList();
-        em.getTransaction().commit();
         em.close();
         return doctors;
     }
