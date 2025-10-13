@@ -37,6 +37,9 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public void updateDoctor(Doctor doctor) throws ValidationException {
         validate(doctor);
+        if (doctorRepository.findById(doctor.getId()) == null) {
+            throw new ObjectNotFound("Doctor not found");
+        }
         doctorRepository.update(doctor);
     }
 

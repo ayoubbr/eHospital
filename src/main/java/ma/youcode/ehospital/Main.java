@@ -109,17 +109,22 @@ public class Main {
 //        consultationRepository.save(consultation);
 
         // TEST 3
-        Consultation consultation = new Consultation();
-        Room room = roomRepository.findById(2);
-        Doctor doctor = doctorRepository.findById(1);
-        Patient patient = patientRepository.findById(2);
-
-        consultation.setDate(LocalDateTime.of(2025, 10, 13, 18, 30));
-        consultation.setReport("Consultation 7 report");
-        consultation.setStatus(Status.RESERVED);
-        consultation.setDoctor(doctor);
-        consultation.setPatient(patient);
+//        Consultation consultation = new Consultation();
+        Room room = roomRepository.findById(3);
+//        Doctor doctor = doctorRepository.findById(1);
+//        Patient patient = patientRepository.findById(2);
+        Consultation consultation = consultationRepository.findById(1);
+        consultation.setDate(LocalDateTime.of(2025, 10, 13, 11, 0));
+//        consultation.setReport("Consultation 7 report");
+//        consultation.setStatus(Status.RESERVED);
+//        consultation.setDoctor(doctor);
+//        consultation.setPatient(patient);
         consultation.setRoom(room);
-        patientService.createConsultation(consultation);
+        patientService.updateConsultation(consultation);
+
+//        Room room = new Room();
+//        room.setCapacity(10);
+//        room.setName("Room 3");
+//        roomRepository.save(room);
     }
 }

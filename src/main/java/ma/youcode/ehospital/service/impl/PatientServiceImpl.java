@@ -1,5 +1,6 @@
 package ma.youcode.ehospital.service.impl;
 
+import ma.youcode.ehospital.exception.ObjectNotFound;
 import ma.youcode.ehospital.exception.TimeSlotIsNotAvailableException;
 import ma.youcode.ehospital.exception.ValidationException;
 import ma.youcode.ehospital.model.*;
@@ -43,16 +44,29 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public void updateConsultation(Consultation consultation) {
         validateConsultation(consultation);
-        if (isRoomAvailable(consultation)) {
-            consultationRepo.update(consultation);
-        } else {
-            throw new TimeSlotIsNotAvailableException("TimeSlot is not available");
+
+        if (consultationRepo.findById(consultation.getId()) == null) {
+            throw new ObjectNotFound("Consultation not found");
         }
+
+        if (!isRoomAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Room is not available in this time");
+        }
+
+        if (!isDoctorAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Doctor is not available in this time");
+        }
+        consultationRepo.update(consultation);
     }
 
     @Override
     public void cancelConsultation(Consultation consultation) {
+        if (consultationRepo.findById(consultation.getId()) == null) {
+            throw new ObjectNotFound("Consultation not found");
+        }
+
         validateConsultation(consultation);
+
         consultation.setStatus(Status.ANNULLED);
         consultationRepo.update(consultation);
     }
@@ -115,8 +129,13 @@ public class PatientServiceImpl implements IPatientService {
 
     private boolean isAvailable(Consultation consultation, List<Consultation> consultations) {
         LocalTime time = consultation.getDate().toLocalTime();
+        int minute = time.getMinute();
         LocalTime startTime = LocalTime.of(9, 0);
         LocalTime endTime = LocalTime.of(18, 30);
+
+        if (minute != 0 && minute != 30) {
+            throw new TimeSlotIsNotAvailableException("Minute is not available");
+        }
 
         if (time.isBefore(startTime) || time.isAfter(endTime)) {
             throw new TimeSlotIsNotAvailableException("TimeSlot is not available | Consultation time must be between 09:00 and 18:30");
