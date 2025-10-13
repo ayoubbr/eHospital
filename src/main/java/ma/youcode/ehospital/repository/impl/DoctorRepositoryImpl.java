@@ -1,13 +1,14 @@
 package ma.youcode.ehospital.repository.impl;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.model.Doctor;
-import ma.youcode.ehospital.model.Patient;
 import ma.youcode.ehospital.repository.IDoctorRepository;
 import ma.youcode.ehospital.util.JPAUtil;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 public class DoctorRepositoryImpl implements IDoctorRepository {
@@ -53,6 +54,20 @@ public class DoctorRepositoryImpl implements IDoctorRepository {
     public Doctor findById(int id) {
         EntityManager em = JPAUtil.getEntityManager();
         Doctor doctor = em.find(Doctor.class, id);
+        em.close();
+        return doctor;
+    }
+
+    @Override
+    public Doctor findByEmail(String email) {
+        EntityManager em = JPAUtil.getEntityManager();
+        Doctor doctor = null;
+        Query query = em.createQuery("from Doctor where email = :email");
+        query.setParameter("email", email);
+        try {
+            doctor = (Doctor) query.getSingleResult();
+        } catch (NoResultException e) {
+        }
         em.close();
         return doctor;
     }

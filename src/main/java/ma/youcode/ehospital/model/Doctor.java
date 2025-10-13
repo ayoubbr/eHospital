@@ -10,7 +10,7 @@ import java.util.List;
 public class Doctor extends Person {
     private String specialty;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "department_id")
     private Department department;
 
@@ -59,7 +59,7 @@ public class Doctor extends Person {
 
     @Override
     public String toString() {
-        return "Doctor{" +
+        return super.toString() + ", " +
                 "specialty='" + specialty + '\'' +
                 ", department=" + department +
                 ", consultationsCount=" + (consultations != null ? consultations.size() : 0) +

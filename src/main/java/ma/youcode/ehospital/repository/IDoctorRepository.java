@@ -16,5 +16,7 @@ public interface IDoctorRepository {
 
     Doctor findById(int id);
 
+    Doctor findByEmail(String email);
+
     List<Doctor> findDoctorsByDepartment(Department department);
 }

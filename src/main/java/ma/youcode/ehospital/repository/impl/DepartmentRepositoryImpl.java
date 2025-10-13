@@ -2,7 +2,10 @@ package ma.youcode.ehospital.repository.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import ma.youcode.ehospital.model.Department;
+import ma.youcode.ehospital.model.Doctor;
 import ma.youcode.ehospital.repository.IDepartmentRepository;
 import ma.youcode.ehospital.util.JPAUtil;
 
@@ -54,6 +57,20 @@ public class DepartmentRepositoryImpl implements IDepartmentRepository {
     public Department findById(int id) {
         EntityManager em = JPAUtil.getEntityManager();
         Department department = em.find(Department.class, id);
+        em.close();
+        return department;
+    }
+
+    @Override
+    public Department findByName(String name) {
+        EntityManager em = JPAUtil.getEntityManager();
+        Department department = null;
+        Query query = em.createQuery("from Department where name = :name");
+        query.setParameter("name", name);
+        try {
+            department = (Department) query.getSingleResult();
+        } catch (NoResultException e) {
+        }
         em.close();
         return department;
     }

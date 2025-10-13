@@ -14,4 +14,6 @@ public interface IDepartmentRepository {
     List<Department> findAll();
 
     Department findById(int id);
+
+    Department findByName(String name);
 }
