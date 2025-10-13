@@ -31,19 +31,7 @@ public class DoctorServiceImpl implements IDoctorService {
 
     @Override
     public void updateConsultation(Consultation consultation, Doctor doctor) {
-        if (consultation == null) {
-            throw new ValidationException("Consultation is null");
-        }
-        if (consultation.getDoctor() == null) {
-            throw new ValidationException("Doctor is null");
-        }
-
-        if (consultation.getPatient() == null) {
-            throw new ValidationException("Patient is null");
-        }
-        if (consultation.getRoom() == null) {
-            throw new ValidationException("Room is null");
-        }
+        PatientServiceImpl.validateConsultation(consultation);
 
         if (!consultation.getDoctor().getEmail().equals(doctor.getEmail())) {
             throw new ValidationException("Doctor's email doesn't match");

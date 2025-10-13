@@ -8,11 +8,11 @@ import ma.youcode.ehospital.model.Patient;
 import java.util.List;
 
 public interface IPatientService {
-    void createConsultation(Patient patient, Consultation consultation);
+    void createConsultation(Consultation consultation);
 
-    void updateConsultation(Patient patient, Consultation consultation);
+    void updateConsultation(Consultation consultation);
 
-    void cancelConsultation(Patient patient, Consultation consultation);
+    void cancelConsultation(Consultation consultation);
 
     List<Consultation> getAllConsultations(Patient patient);
 
