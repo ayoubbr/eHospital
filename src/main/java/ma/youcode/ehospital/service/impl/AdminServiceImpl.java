@@ -8,25 +8,21 @@ import ma.youcode.ehospital.model.Doctor;
 import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.service.IAdminService;
-import ma.youcode.ehospital.service.IDoctorService;
 
 import java.util.List;
 
 public class AdminServiceImpl implements IAdminService {
 
     IDoctorRepository doctorRepository;
-    IPatientRepository patientRepository;
     IConsultationRepository consultationRepository;
     IDepartmentRepository departmentRepository;
     IRoomRepository roomRepository;
 
     public AdminServiceImpl(IDoctorRepository doctorRepository,
-                            IPatientRepository patientRepository,
                             IConsultationRepository consultationRepository,
                             IDepartmentRepository departmentRepository,
                             IRoomRepository roomRepository) {
         this.doctorRepository = doctorRepository;
-        this.patientRepository = patientRepository;
         this.consultationRepository = consultationRepository;
         this.departmentRepository = departmentRepository;
         this.roomRepository = roomRepository;

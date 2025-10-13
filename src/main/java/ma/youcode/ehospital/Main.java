@@ -26,11 +26,8 @@ public class Main {
         IRoomRepository roomRepository = new RoomRepositoryImpl();
 
 
-        IAdminService adminService = new AdminServiceImpl(doctorRepository,
-                patientRepository,
-                consultationRepository,
-                departmentRepository,
-                roomRepository);
+        IAdminService adminService = new AdminServiceImpl(doctorRepository, consultationRepository,
+                departmentRepository, roomRepository);
 
         Department department = departmentRepository.findById(1);
         Doctor doctor = doctorRepository.findById(3);
