@@ -1,26 +1,41 @@
 package ma.youcode.ehospital.service.impl;
 
+import ma.youcode.ehospital.exception.TimeSlotIsNotAvailableException;
 import ma.youcode.ehospital.exception.ValidationException;
 import ma.youcode.ehospital.model.*;
 import ma.youcode.ehospital.repository.IConsultationRepository;
 import ma.youcode.ehospital.repository.IDoctorRepository;
+import ma.youcode.ehospital.repository.IRoomRepository;
+import ma.youcode.ehospital.repository.impl.RoomRepositoryImpl;
 import ma.youcode.ehospital.service.IPatientService;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public class PatientServiceImpl implements IPatientService {
 
     IConsultationRepository consultationRepo;
     IDoctorRepository doctorRepo;
+    IRoomRepository roomRepo;
 
-    public PatientServiceImpl(IConsultationRepository consultationRepo, IDoctorRepository doctorRepo) {
+    public PatientServiceImpl(IConsultationRepository consultationRepo, IDoctorRepository doctorRepo, IRoomRepository roomRepo) {
         this.consultationRepo = consultationRepo;
         this.doctorRepo = doctorRepo;
+        this.roomRepo = roomRepo;
     }
 
     @Override
     public void createConsultation(Consultation consultation) {
         validateConsultation(consultation);
+
+        if (!isRoomAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Room is not available in this time");
+        }
+
+        if (!isDoctorAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Doctor is not available in this time");
+        }
+
         consultationRepo.save(consultation);
     }
 
@@ -28,13 +43,17 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public void updateConsultation(Consultation consultation) {
         validateConsultation(consultation);
-        consultationRepo.update(consultation);
+        if (isRoomAvailable(consultation)) {
+            consultationRepo.update(consultation);
+        } else {
+            throw new TimeSlotIsNotAvailableException("TimeSlot is not available");
+        }
     }
 
     @Override
     public void cancelConsultation(Consultation consultation) {
         validateConsultation(consultation);
-        consultation.setStatusByName(Status.ANNULLED);
+        consultation.setStatus(Status.ANNULLED);
         consultationRepo.update(consultation);
     }
 
@@ -74,5 +93,35 @@ public class PatientServiceImpl implements IPatientService {
         if (consultation.getRoom() == null) {
             throw new ValidationException("Room is null");
         }
+    }
+
+    private boolean isRoomAvailable(Consultation consultation) {
+        Room roomById = roomRepo.findById(consultation.getRoom().getId());
+        if (roomById == null) {
+            throw new ValidationException("Room not found");
+        }
+
+        return isAvailable(consultation, roomById.getConsultations());
+    }
+
+    private boolean isDoctorAvailable(Consultation consultation) {
+        Doctor doctorById = doctorRepo.findById(consultation.getDoctor().getId());
+        if (doctorById == null) {
+            throw new ValidationException("Doctor not found");
+        }
+
+        return isAvailable(consultation, doctorById.getConsultations());
+    }
+
+    private boolean isAvailable(Consultation consultation, List<Consultation> consultations) {
+        LocalTime time = consultation.getDate().toLocalTime();
+        LocalTime startTime = LocalTime.of(9, 0);
+        LocalTime endTime = LocalTime.of(18, 30);
+
+        if (time.isBefore(startTime) || time.isAfter(endTime)) {
+            throw new TimeSlotIsNotAvailableException("TimeSlot is not available | Consultation time must be between 09:00 and 18:30");
+        }
+
+        return consultations.stream().noneMatch(c -> c.getDate().equals(consultation.getDate()));
     }
 }

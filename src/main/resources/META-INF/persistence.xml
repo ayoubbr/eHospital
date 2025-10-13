@@ -4,7 +4,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- List your entity classes -->
         <!-- I should search why I didn't need to list them here-->
-
         <properties>
             <!-- Database connection -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

@@ -2,7 +2,7 @@ package ma.youcode.ehospital.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -13,28 +13,31 @@ public class Consultation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private LocalDate date;
-    private LocalTime hour;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP(0)")
+    private LocalDateTime date;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status statusByName;
+    private Status status;
 
     private String report;
+
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
+
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
-    public Consultation(int id, LocalDate date, LocalTime hour, Status statusByName, String report, Patient patient, Doctor doctor, Room room) {
+    public Consultation(int id, LocalDateTime date, LocalTime hour, Status status, String report, Patient patient, Doctor doctor, Room room) {
         this.id = id;
         this.date = date;
-        this.hour = hour;
-        this.statusByName = statusByName;
+        this.status = status;
         this.report = report;
         this.patient = patient;
         this.doctor = doctor;
@@ -52,28 +55,21 @@ public class Consultation {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public LocalTime getHour() {
-        return hour;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setHour(LocalTime hour) {
-        this.hour = hour;
-    }
-
-    public Status getStatusByName() {
-        return statusByName;
-    }
-
-    public void setStatusByName(Status statusByName) {
-        this.statusByName = statusByName;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getReport() {
@@ -113,8 +109,7 @@ public class Consultation {
         return "Consultation{" +
                 "id=" + id +
                 ", date=" + date +
-                ", hour=" + hour +
-                ", statusByName=" + statusByName +
+                ", status=" + status +
                 ", report='" + report + '\'' +
                 ", patient=" + patient +
                 ", doctor=" + doctor +

@@ -142,6 +142,12 @@ public class AdminServiceImpl implements IAdminService {
         if (department == null) {
             throw new ValidationException("Department is null");
         }
+
+        Doctor dbDoctor = doctorRepository.findById(doctor.getId());
+        if (dbDoctor == null) {
+            throw new ObjectNotFound("Doctor not found");
+        }
+
         doctor.setDepartment(department);
         doctorRepository.update(doctor);
     }
