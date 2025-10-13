@@ -44,7 +44,6 @@ public class AdminServiceImpl implements IAdminService {
         doctorRepository.update(doctor);
     }
 
-
     @Override
     public void deleteDoctor(Doctor doctor) throws ValidationException {
         if (doctor == null) {
@@ -130,47 +129,88 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public Department getDepartmentById(int id) {
-        return null;
+        if (id <= 0) {
+            throw new ValidationException("Department id is not valid");
+        }
+        if (departmentRepository.findById(id) == null) {
+            throw new ObjectNotFound("Department not found");
+        }
+        return departmentRepository.findById(id);
     }
 
     @Override
     public void setDoctorToDepartment(Doctor doctor, Department department) {
-
+        if (doctor == null) {
+            throw new ValidationException("Doctor is null");
+        }
+        if (department == null) {
+            throw new ValidationException("Department is null");
+        }
+        doctor.setDepartment(department);
+        doctorRepository.update(doctor);
     }
 
     @Override
     public void createRoom(Room room) {
+        validateRoom(room);
 
+        roomRepository.save(room);
     }
 
     @Override
     public void updateRoom(Room room) {
+        validateRoom(room);
+        if (roomRepository.findById(room.getId()) == null) {
+            throw new ObjectNotFound("Room not found");
+        }
 
+        roomRepository.update(room);
     }
 
     @Override
     public void deleteRoom(Room room) {
-
+        if (room == null) {
+            throw new ValidationException("Room is null");
+        }
+        roomRepository.delete(room.getId());
     }
 
     @Override
     public List<Room> getRooms() {
-        return List.of();
+        if (roomRepository.findAll().isEmpty()) {
+            throw new ObjectNotFound("No Room found");
+        }
+        return roomRepository.findAll();
     }
 
     @Override
     public Room getRoomById(int id) {
-        return null;
+        if (id <= 0) {
+            throw new ValidationException("Room id is not valid");
+        }
+        if (roomRepository.findById(id) == null) {
+            throw new ObjectNotFound("Room not found");
+        }
+        return roomRepository.findById(id);
     }
 
     @Override
     public void getConsultations() {
-
+        if (consultationRepository.findAll().isEmpty()) {
+            throw new ObjectNotFound("No Consultation found");
+        }
+        consultationRepository.findAll();
     }
 
     @Override
     public Consultation getConsultationById(int id) {
-        return null;
+        if (id <= 0) {
+            throw new ValidationException("Consultation id is not valid");
+        }
+        if (consultationRepository.findById(id) == null) {
+            throw new ObjectNotFound("Consultation not found");
+        }
+        return consultationRepository.findById(id);
     }
 
     private void validate(Doctor doctor) {
@@ -203,6 +243,23 @@ public class AdminServiceImpl implements IAdminService {
 
         if (doctorRepository.findByEmail(doctor.getEmail()) != null) {
             throw new ValidationException("doctor email already exists");
+        }
+    }
+
+    private void validateRoom(Room room) {
+        if (room == null) {
+            throw new ValidationException("Room is null");
+        }
+        if (room.getName() == null || room.getName().isEmpty()) {
+            throw new ValidationException("Room name is not valid");
+        }
+
+        if (room.getCapacity() < 0) {
+            throw new ValidationException("Room capacity is negative");
+        }
+
+        if (room.getCapacity() > 10) {
+            throw new ValidationException("Room capacity exceeds 10");
         }
     }
 }
