@@ -146,16 +146,21 @@ public class Main {
 
         Doctor doctor = doctorRepository.findById(1);
 //        Doctor doctor = new Doctor();
+//
+//        doctor.setFirstName("Doctor 1");
+//        doctor.setLastName("Doctor 2");
+//        doctor.setEmail("doctor1@email.com");
+//        doctor.setPassword("password");
+//        doctor.setRole("Doctor");
+//        doctor.setSpecialty("Heart");
 
-        doctor.setFirstName("Doctor 1");
-        doctor.setLastName("Doctor 2");
-        doctor.setEmail("doctor1@email.com");
-        doctor.setPassword("password");
-        doctor.setRole("Doctor");
-        doctor.setSpecialty("Doctor Specialty");
+
 
         try {
-            adminService.deleteDoctor(doctor);
+//            Room room = adminService.getRoomById(2);
+            Room room = new Room();
+            room.setName("JavaRoot");
+            adminService.createRoom(room);
         } catch (ValidationException | ObjectNotFound e) {
             System.out.println("Error: " + e.getMessage());
         }

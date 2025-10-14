@@ -1,6 +1,8 @@
 package ma.youcode.ehospital.repository.impl;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import ma.youcode.ehospital.model.Doctor;
 import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.IRoomRepository;
 import ma.youcode.ehospital.util.JPAUtil;
@@ -48,6 +50,16 @@ public class RoomRepositoryImpl implements IRoomRepository {
     public Room findById(int id) {
         EntityManager em = JPAUtil.getEntityManager();
         Room room = em.find(Room.class, id);
+        em.close();
+        return room;
+    }
+
+    @Override
+    public Room findByName(String name) {
+        EntityManager em = JPAUtil.getEntityManager();
+        Query query = em.createQuery("from Room where name = :name");
+        query.setParameter("name", name);
+        Room room = (Room) query.getSingleResult();
         em.close();
         return room;
     }

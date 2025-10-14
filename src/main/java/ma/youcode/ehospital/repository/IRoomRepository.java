@@ -16,4 +16,6 @@ public interface IRoomRepository {
     List<Room> findAll();
 
     Room findById(int id);
+
+    Room findByName(String name);
 }

@@ -32,6 +32,9 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public void createDoctor(Doctor doctor) throws ValidationException {
         validate(doctor);
+        if (doctorRepository.findByEmail(doctor.getEmail()) != null) {
+            throw new ValidationException("doctor email already exists");
+        }
         doctorRepository.save(doctor);
     }
 
@@ -168,6 +171,10 @@ public class AdminServiceImpl implements IAdminService {
     public void createRoom(Room room) {
         validateRoom(room);
 
+        if (roomRepository.findByName(room.getName()) != null) {
+            throw new ValidationException("Room name already exists");
+        }
+
         roomRepository.save(room);
     }
 
@@ -176,6 +183,10 @@ public class AdminServiceImpl implements IAdminService {
         validateRoom(room);
         if (roomRepository.findById(room.getId()) == null) {
             throw new ObjectNotFound("Room not found");
+        }
+
+        if (roomRepository.findByName(room.getName()) != null) {
+            throw new ValidationException("Room name already exists");
         }
 
         roomRepository.update(room);
@@ -255,9 +266,6 @@ public class AdminServiceImpl implements IAdminService {
             throw new ValidationException("doctor password must be at least 8 characters");
         }
 
-        if (doctorRepository.findByEmail(doctor.getEmail()) != null) {
-            throw new ValidationException("doctor email already exists");
-        }
     }
 
     private void validateRoom(Room room) {
