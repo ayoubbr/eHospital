@@ -4,4 +4,13 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
+<!--    <servlet>-->
+<!--        <servlet-name>GetServlet</servlet-name>-->
+<!--        <servlet-class>ma.youcode.ehospital.servlets.GetServlet</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>GetServlet</servlet-name>-->
+<!--        <url-pattern>/getServlet</url-pattern>-->
+<!--    </servlet-mapping>-->
+
 </web-app>

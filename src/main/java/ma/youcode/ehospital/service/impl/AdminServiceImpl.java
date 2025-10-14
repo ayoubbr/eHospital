@@ -171,11 +171,11 @@ public class AdminServiceImpl implements IAdminService {
     public void createRoom(Room room) {
         validateRoom(room);
 
-        if (roomRepository.findByName(room.getName()) != null) {
-            throw new ValidationException("Room name already exists");
-        }
+        Room dbRoom = roomRepository.findByName(room.getName());
 
-        roomRepository.save(room);
+        if (dbRoom == null) {
+            roomRepository.save(room);
+        }
     }
 
     @Override

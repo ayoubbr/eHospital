@@ -1,6 +1,7 @@
 package ma.youcode.ehospital.repository.impl;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import ma.youcode.ehospital.model.Doctor;
 import ma.youcode.ehospital.model.Room;
@@ -59,7 +60,12 @@ public class RoomRepositoryImpl implements IRoomRepository {
         EntityManager em = JPAUtil.getEntityManager();
         Query query = em.createQuery("from Room where name = :name");
         query.setParameter("name", name);
-        Room room = (Room) query.getSingleResult();
+        Room room = null;
+        try {
+            room = (Room) query.getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
         em.close();
         return room;
     }
