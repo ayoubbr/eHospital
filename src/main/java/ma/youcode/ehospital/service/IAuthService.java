@@ -1,10 +1,12 @@
 package ma.youcode.ehospital.service;
 
+import ma.youcode.ehospital.model.Person;
+
 public interface IAuthService {
 
-    void register(String username, String password);
+    void register(Person person);
 
-    void login(String username, String password);
+    Person login(Person person);
 
     void logout();
 }

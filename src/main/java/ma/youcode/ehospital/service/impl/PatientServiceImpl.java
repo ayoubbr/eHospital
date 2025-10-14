@@ -40,7 +40,6 @@ public class PatientServiceImpl implements IPatientService {
         consultationRepo.save(consultation);
     }
 
-
     @Override
     public void updateConsultation(Consultation consultation) {
         validateConsultation(consultation);
