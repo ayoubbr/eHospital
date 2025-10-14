@@ -1,6 +1,7 @@
 package ma.youcode.ehospital.service.impl;
 
 import ma.youcode.ehospital.exception.ObjectNotFound;
+import ma.youcode.ehospital.exception.TransactionFailed;
 import ma.youcode.ehospital.exception.ValidationException;
 import ma.youcode.ehospital.model.Consultation;
 import ma.youcode.ehospital.model.Department;
@@ -49,7 +50,15 @@ public class AdminServiceImpl implements IAdminService {
             throw new ValidationException("Doctor is null");
         }
 
-        doctorRepository.delete(doctor.getId());
+        if (doctorRepository.findById(doctor.getId()) == null) {
+            throw new ObjectNotFound("Doctor not found");
+        }
+
+        try {
+            doctorRepository.delete(doctor.getId());
+        } catch (TransactionFailed e) {
+            System.out.println("Error in deleting Doctor " + e.getMessage());
+        }
     }
 
     @Override

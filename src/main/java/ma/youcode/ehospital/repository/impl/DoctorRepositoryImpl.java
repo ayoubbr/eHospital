@@ -3,6 +3,7 @@ package ma.youcode.ehospital.repository.impl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import ma.youcode.ehospital.exception.TransactionFailed;
 import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.model.Doctor;
 import ma.youcode.ehospital.repository.IDoctorRepository;
@@ -33,13 +34,20 @@ public class DoctorRepositoryImpl implements IDoctorRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws TransactionFailed {
         EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
-        Doctor doctor = em.find(Doctor.class, id);
-        em.remove(doctor);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            Doctor doctor = em.find(Doctor.class, id);
+            em.remove(doctor);
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new TransactionFailed("Transaction failed");
+        } finally {
+            em.close();
+        }
     }
 
     @Override
