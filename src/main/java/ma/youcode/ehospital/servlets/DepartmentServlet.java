@@ -39,10 +39,18 @@ public class DepartmentServlet extends HttpServlet {
                 request.getRequestDispatcher("/departments/form.jsp").forward(request, response);
                 break;
             case "edit":
-                int id = Integer.parseInt(request.getParameter("id"));
-                Department department = adminService.getDepartmentById(id);
-                request.setAttribute("department", department);
-                request.getRequestDispatcher("/departments/form.jsp").forward(request, response);
+                try {
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    Department department = adminService.getDepartmentById(id);
+                    request.setAttribute("department", department);
+                    request.getRequestDispatcher("/departments/form.jsp").forward(request, response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorMessage", e.getMessage());
+                    List<Department> departments = adminService.getDepartments();
+                    request.setAttribute("departments", departments);
+                    request.getRequestDispatcher("/departments/list.jsp").forward(request, response);
+                }
                 break;
             case "delete":
                 try {

@@ -43,10 +43,18 @@ public class RoomServlet extends HttpServlet {
                 request.getRequestDispatcher("/rooms/form.jsp").forward(request, response);
                 break;
             case "edit":
-                int id = Integer.parseInt(request.getParameter("id"));
-                Room room = adminService.getRoomById(id);
-                request.setAttribute("room", room);
-                request.getRequestDispatcher("/rooms/form.jsp").forward(request, response);
+                try {
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    Room room = adminService.getRoomById(id);
+                    request.setAttribute("room", room);
+                    request.getRequestDispatcher("/rooms/form.jsp").forward(request, response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorMessage", e.getMessage());
+                    List<Room> rooms = adminService.getRooms();
+                    request.setAttribute("rooms", rooms);
+                    request.getRequestDispatcher("/rooms/list.jsp").forward(request, response);
+                }
                 break;
             case "delete":
                 try {
@@ -104,10 +112,7 @@ public class RoomServlet extends HttpServlet {
                     request.setAttribute("room", room);
                     request.getRequestDispatcher("/rooms/form.jsp").forward(request, response);
                 }
-            } else {
-                System.out.println("Room not found");
             }
-
         }
 
         response.sendRedirect("rooms");
