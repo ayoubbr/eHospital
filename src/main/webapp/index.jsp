@@ -10,5 +10,6 @@
 <br/>
 <a href="rooms">Rooms</a>
 <a href="departments">Departments</a>
+<a href="doctors">Doctors</a>
 </body>
 </html>

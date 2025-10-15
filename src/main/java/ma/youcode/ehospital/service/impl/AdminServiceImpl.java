@@ -59,8 +59,8 @@ public class AdminServiceImpl implements IAdminService {
 
         try {
             doctorRepository.delete(doctor.getId());
-        } catch (TransactionFailed e) {
-            System.out.println("Error in deleting Doctor " + e.getMessage());
+        } catch (Exception e) {
+            throw e;
         }
     }
 
@@ -261,6 +261,7 @@ public class AdminServiceImpl implements IAdminService {
         if (doctor == null) {
             throw new ValidationException("Doctor is null");
         }
+
         if (doctor.getEmail() == null || doctor.getEmail().isEmpty()) {
             throw new ValidationException("doctor email is null or empty");
         }
@@ -282,7 +283,7 @@ public class AdminServiceImpl implements IAdminService {
         }
 
         if (doctor.getPassword().length() < 4) {
-            throw new ValidationException("doctor password must be at least 8 characters");
+            throw new ValidationException("doctor password must be at least 4 characters");
         }
 
     }

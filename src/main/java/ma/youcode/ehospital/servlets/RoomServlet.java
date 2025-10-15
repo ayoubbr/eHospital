@@ -23,7 +23,6 @@ import java.util.List;
 public class RoomServlet extends HttpServlet {
 
     private IDoctorRepository doctorRepo = new DoctorRepositoryImpl();
-    private IPatientRepository patientRepo = new PatientRepositoryImpl();
     private IConsultationRepository consultationRepository = new ConsultationRepositoryImpl();
     private IDepartmentRepository departmentRepo = new DepartmentRepositoryImpl();
     private IRoomRepository roomRepo = new RoomRepositoryImpl();

@@ -65,36 +65,128 @@ label {
 
 input[type="text"],
 input[type="number"],
-input[type="hidden"] {
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
     font-family: "Times New Roman", Times, serif;
-    padding: 8px;
+    padding: 10px 12px;
     border: 1px solid #000000;
     background-color: #ffffff;
     color: #000000;
     width: 300px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+input[type="hidden"] {
+    display: none;
 }
 
 input[type="text"]:focus,
-input[type="number"]:focus {
-    outline: 2px solid #000000;
-    outline-offset: 2px;
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    /*border: 2px solid #000000;*/
+    /*padding: 9px 11px;*/
+    /*box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);*/
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='square' stroke-linejoin='miter'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 35px;
+}
+
+textarea {
+    width: 300px;
+    min-height: 100px;
+    resize: vertical;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.error,
+.error-message,
+span.error {
+    color: #000000;
+    font-size: 14px;
+    font-style: italic;
+    display: block;
+    margin-top: 5px;
+    margin-left: 120px;
+    border-left: 3px solid #000000;
+    padding-left: 10px;
+}
+
+input.error,
+select.error,
+textarea.error {
+    border: 2px solid #000000;
+    background-color: #fafafa;
 }
 
 button,
 input[type="submit"] {
     font-family: "Times New Roman", Times, serif;
-    padding: 10px 20px;
+    padding: 12px 24px;
     background-color: #ffffff;
     color: #000000;
-    border: 1px solid #000000;
+    border: 2px solid #000000;
     cursor: pointer;
     margin-top: 10px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
 }
 
 button:hover,
 input[type="submit"]:hover {
     background-color: #000000;
     color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:active,
+input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+button:disabled,
+input[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+button:disabled:hover,
+input[type="submit"]:disabled:hover {
+    background-color: #ffffff;
+    color: #000000;
+    box-shadow: none;
 }
 
 br {
