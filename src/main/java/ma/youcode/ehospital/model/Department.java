@@ -2,6 +2,8 @@ package ma.youcode.ehospital.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "departments")
 public class Department {
@@ -11,6 +13,9 @@ public class Department {
     private int id;
     @Column(unique = true, nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    private List<Doctor> doctors;
 
     public Department(int id, String name) {
         this.id = id;
@@ -34,6 +39,14 @@ public class Department {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
     }
 
     @Override

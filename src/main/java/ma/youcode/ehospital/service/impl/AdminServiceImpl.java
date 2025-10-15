@@ -96,6 +96,10 @@ public class AdminServiceImpl implements IAdminService {
             throw new ValidationException("Department name is not valid");
         }
 
+        if (departmentRepository.findByName(department.getName()) != null) {
+            throw new ValidationException("Department name already exists");
+        }
+
         departmentRepository.save(department);
     }
 
@@ -109,7 +113,10 @@ public class AdminServiceImpl implements IAdminService {
             throw new ObjectNotFound("Department not found");
         }
 
-        if (departmentRepository.findByName(department.getName()) != null) {
+        Department departmentDB = departmentRepository.findById(department.getId());
+
+        if (departmentRepository.findByName(department.getName()) != null
+                && department.getId() != departmentDB.getId()) {
             throw new ValidationException("Department already exists");
         }
 
@@ -124,6 +131,10 @@ public class AdminServiceImpl implements IAdminService {
     public void deleteDepartment(Department department) {
         if (department == null) {
             throw new ValidationException("Department is null");
+        }
+
+        if (!department.getDoctors().isEmpty()) {
+            throw new ValidationException("Department doctors not empty");
         }
 
         departmentRepository.delete(department.getId());
@@ -185,7 +196,9 @@ public class AdminServiceImpl implements IAdminService {
             throw new ObjectNotFound("Room not found");
         }
 
-        if (roomRepository.findByName(room.getName()) != null) {
+        Room dbRoom = roomRepository.findById(room.getId());
+
+        if (roomRepository.findByName(room.getName()) != null && dbRoom.getId() != room.getId()) {
             throw new ValidationException("Room name already exists");
         }
 
@@ -197,6 +210,11 @@ public class AdminServiceImpl implements IAdminService {
         if (room == null) {
             throw new ValidationException("Room is null");
         }
+
+        if (!room.getConsultations().isEmpty()) {
+            throw new ValidationException("Room consultations not empty");
+        }
+
         roomRepository.delete(room.getId());
     }
 

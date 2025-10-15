@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.repository.impl.*;
@@ -28,8 +29,6 @@ public class RoomServlet extends HttpServlet {
     private IRoomRepository roomRepo = new RoomRepositoryImpl();
 
     private IAdminService adminService = new AdminServiceImpl(doctorRepo, consultationRepository, departmentRepo, roomRepo);
-//    private IPatientService patientService = new PatientServiceImpl();
-//    private IDoctorService doctorService = new DoctorServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,9 +49,18 @@ public class RoomServlet extends HttpServlet {
                 request.getRequestDispatcher("/rooms/form.jsp").forward(request, response);
                 break;
             case "delete":
-                Room room1 = adminService.getRoomById(Integer.parseInt(request.getParameter("id")));
-                adminService.deleteRoom(room1);
-                response.sendRedirect("rooms");
+                try {
+                    Room room1 = adminService.getRoomById(Integer.parseInt(request.getParameter("id")));
+                    adminService.deleteRoom(room1);
+                    response.sendRedirect(request.getContextPath() + "/rooms");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    List<Room> rooms = adminService.getRooms();
+                    request.setAttribute("rooms", rooms);
+                    request.setAttribute("errorMessage",
+                            "You are trying to delete a room that has consultations.");
+                    request.getRequestDispatcher("/rooms/list.jsp").forward(request, response);
+                }
                 break;
             default:
                 List<Room> rooms = adminService.getRooms();
@@ -80,6 +88,8 @@ public class RoomServlet extends HttpServlet {
                 adminService.createRoom(room);
             } catch (Exception e) {
                 e.printStackTrace();
+                request.setAttribute("errorMessage", e.getMessage());
+                request.getRequestDispatcher("/rooms/form.jsp").forward(request, response);
             }
         } else {
             room = adminService.getRoomById(id);

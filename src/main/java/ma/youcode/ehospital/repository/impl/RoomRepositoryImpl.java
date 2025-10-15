@@ -64,9 +64,10 @@ public class RoomRepositoryImpl implements IRoomRepository {
         try {
             room = (Room) query.getSingleResult();
         } catch (NoResultException e) {
-            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
         }
-        em.close();
         return room;
     }
 }

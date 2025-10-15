@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 40px;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th,
+td {
+    border: 1px solid #000000;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    font-weight: normal;
+    background-color: #ffffff;
+    border-bottom: 2px solid #000000;
+}
+
+form {
+    margin: 20px 0;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="hidden"] {
+    font-family: "Times New Roman", Times, serif;
+    padding: 8px;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    color: #000000;
+    width: 300px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+}
+
+button,
+input[type="submit"] {
+    font-family: "Times New Roman", Times, serif;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+br {
+    line-height: 2;
+}

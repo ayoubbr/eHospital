@@ -1,16 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Youcode
-  Date: 14/10/2025
-  Time: 15:35
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>Room Details</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/minimal.css">
 </head>
 <body>
-
+<h2>Room Details</h2>
+<p>Details content goes here.</p>
+<a href="rooms">Back to List</a>
 </body>
 </html>
