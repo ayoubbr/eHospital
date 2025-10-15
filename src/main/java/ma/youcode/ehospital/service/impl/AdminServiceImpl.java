@@ -113,10 +113,9 @@ public class AdminServiceImpl implements IAdminService {
             throw new ObjectNotFound("Department not found");
         }
 
-        Department departmentDB = departmentRepository.findById(department.getId());
+        Department departmentDB = departmentRepository.findByName(department.getName());
 
-        if (departmentRepository.findByName(department.getName()) != null
-                && department.getId() != departmentDB.getId()) {
+        if (departmentDB != null && department.getId() != departmentDB.getId()) {
             throw new ValidationException("Department already exists");
         }
 
@@ -186,6 +185,8 @@ public class AdminServiceImpl implements IAdminService {
 
         if (dbRoom == null) {
             roomRepository.save(room);
+        } else {
+            throw new ObjectNotFound("Room name already exists");
         }
     }
 
@@ -294,8 +295,8 @@ public class AdminServiceImpl implements IAdminService {
             throw new ValidationException("Room name is not valid");
         }
 
-        if (room.getCapacity() < 0) {
-            throw new ValidationException("Room capacity is negative");
+        if (room.getCapacity() < 1) {
+            throw new ValidationException("Room capacity is not valid");
         }
 
         if (room.getCapacity() > 10) {

@@ -96,11 +96,13 @@ public class RoomServlet extends HttpServlet {
             if (room != null) {
                 room.setName(name);
                 room.setCapacity(capacity);
-
                 try {
                     adminService.updateRoom(room);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.setAttribute("room", room);
+                    request.getRequestDispatcher("/rooms/form.jsp").forward(request, response);
                 }
             } else {
                 System.out.println("Room not found");

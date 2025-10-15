@@ -94,6 +94,7 @@ public class DepartmentServlet extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                     request.setAttribute("errorMessage", e.getMessage());
+                    request.setAttribute("department", department);
                     request.getRequestDispatcher("/departments/form.jsp").forward(request, response);
                 }
             } else {
