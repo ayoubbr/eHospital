@@ -82,6 +82,8 @@ public class DepartmentServlet extends HttpServlet {
                 adminService.createDepartment(department);
             } catch (Exception e) {
                 e.printStackTrace();
+                request.setAttribute("errorMessage", e.getMessage());
+                request.getRequestDispatcher("/departments/form.jsp").forward(request, response);
             }
         } else {
             department = adminService.getDepartmentById(id);
@@ -91,6 +93,8 @@ public class DepartmentServlet extends HttpServlet {
                     adminService.updateDepartment(department);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.getRequestDispatcher("/departments/form.jsp").forward(request, response);
                 }
             } else {
                 System.out.println("Department not found");

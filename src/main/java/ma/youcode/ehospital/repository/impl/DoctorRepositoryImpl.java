@@ -9,7 +9,6 @@ import ma.youcode.ehospital.model.Doctor;
 import ma.youcode.ehospital.repository.IDoctorRepository;
 import ma.youcode.ehospital.util.JPAUtil;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public class DoctorRepositoryImpl implements IDoctorRepository {
@@ -69,14 +68,16 @@ public class DoctorRepositoryImpl implements IDoctorRepository {
     @Override
     public Doctor findByEmail(String email) {
         EntityManager em = JPAUtil.getEntityManager();
-        Doctor doctor = null;
+        Doctor doctor;
         Query query = em.createQuery("from Doctor where email = :email");
         query.setParameter("email", email);
         try {
             doctor = (Doctor) query.getSingleResult();
         } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
         }
-        em.close();
         return doctor;
     }
 
