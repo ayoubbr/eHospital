@@ -32,13 +32,26 @@ public class ConsultationRepositoryImpl implements IConsultationRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws Exception {
         EntityManager em = JPAUtil.getEntityManager();
-        Consultation consultation = em.find(Consultation.class, id);
-        em.getTransaction().begin();
-        em.remove(consultation);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            em.getTransaction().begin();
+            Consultation consultation = em.find(Consultation.class, id);
+
+            if (consultation != null) {
+                em.remove(consultation);
+            } else {
+                throw new Exception("Consultation not found with id: " + id);
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+            throw e;
+        } finally {
+            em.close();
+        }
     }
 
     @Override

@@ -41,7 +41,12 @@ public interface IAdminService {
 
     Room getRoomById(int id);
 
-    void getConsultations();
+    List<Consultation> getConsultations();
 
     Consultation getConsultationById(int id);
+
+    void updateConsultation(Consultation consultation);
+
+    void deleteConsultation(Consultation consultation);
 }
+

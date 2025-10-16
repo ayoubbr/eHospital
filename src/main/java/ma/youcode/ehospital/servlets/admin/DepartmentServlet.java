@@ -1,4 +1,4 @@
-package ma.youcode.ehospital.servlets;
+package ma.youcode.ehospital.servlets.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ma.youcode.ehospital.model.Department;
-import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.repository.impl.*;
 import ma.youcode.ehospital.service.IAdminService;
@@ -19,7 +18,6 @@ import java.util.List;
 public class DepartmentServlet extends HttpServlet {
 
     private IDoctorRepository doctorRepo = new DoctorRepositoryImpl();
-    private IPatientRepository patientRepo = new PatientRepositoryImpl();
     private IConsultationRepository consultationRepository = new ConsultationRepositoryImpl();
     private IDepartmentRepository departmentRepo = new DepartmentRepositoryImpl();
     private IRoomRepository roomRepo = new RoomRepositoryImpl();

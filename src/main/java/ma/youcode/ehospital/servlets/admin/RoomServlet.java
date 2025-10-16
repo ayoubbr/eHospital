@@ -1,20 +1,15 @@
-package ma.youcode.ehospital.servlets;
+package ma.youcode.ehospital.servlets.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.repository.impl.*;
 import ma.youcode.ehospital.service.IAdminService;
-import ma.youcode.ehospital.service.IDoctorService;
-import ma.youcode.ehospital.service.IPatientService;
 import ma.youcode.ehospital.service.impl.AdminServiceImpl;
-import ma.youcode.ehospital.service.impl.DoctorServiceImpl;
-import ma.youcode.ehospital.service.impl.PatientServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +25,8 @@ public class RoomServlet extends HttpServlet {
     private IAdminService adminService = new AdminServiceImpl(doctorRepo, consultationRepository, departmentRepo, roomRepo);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
             action = "list";

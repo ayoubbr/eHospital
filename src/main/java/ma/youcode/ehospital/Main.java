@@ -44,19 +44,19 @@ public class Main {
 
 //        // START TEST
 //        Room room = new Room();
-//        room.setName("Room 1");
+//        room.setName("Room 3");
 //        room.setCapacity(5);
 //        adminService.createRoom(room);
 //        Department department = new Department();
-//        department.setName("Department 1");
+//        department.setName("Department 3");
 //        adminService.createDepartment(department);
 //        Doctor doctor = new Doctor();
-//        doctor.setFirstName("Doctor 1");
-//        doctor.setLastName("Doctor 2");
+//        doctor.setFirstName("Harit");
+//        doctor.setLastName("Ennair");
 //        doctor.setEmail("doctor1@email.com");
 //        doctor.setPassword("password");
 //        doctor.setRole("Doctor");
-//        doctor.setSpecialty("Doctor Specialty");
+//        doctor.setSpecialty("Brain");
 //        doctor.setDepartment(department);
 //        adminService.createDoctor(doctor);
 //        Patient patient = new Patient();
@@ -144,7 +144,7 @@ public class Main {
 //        doctorService.updateConsultation(byId, doctor);
 
 
-        Doctor doctor = doctorRepository.findById(1);
+//        Doctor doctor = doctorRepository.findById(1);
 //        Doctor doctor = new Doctor();
 //
 //        doctor.setFirstName("Doctor 1");
@@ -155,16 +155,17 @@ public class Main {
 //        doctor.setSpecialty("Heart");
 
 
-
-        try {
-//            Room room = adminService.getRoomById(2);
-            Room room = new Room();
-            room.setName("JavaRoot");
-            adminService.createRoom(room);
-        } catch (ValidationException | ObjectNotFound e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-//        adminService.deleteDoctor(doctor);
+//
+//        try {
+////            Room room = adminService.getRoomById(2);
+//            Room room = new Room();
+//            room.setName("JavaRoot");
+//            adminService.createRoom(room);
+//        } catch (ValidationException | ObjectNotFound e) {
+//            System.out.println("Error: " + e.getMessage());
+//        }
+//        Consultation consultation = adminService.getConsultationById(1);
+//        adminService.deleteConsultation(consultation);
 //        adminService.updateDoctor(doctor);
 //        adminService.getDoctors();
 //        adminService.getDoctorById(1);

@@ -1,4 +1,4 @@
-package ma.youcode.ehospital.servlets;
+package ma.youcode.ehospital.servlets.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.model.Doctor;
-import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.repository.impl.*;
 import ma.youcode.ehospital.service.IAdminService;

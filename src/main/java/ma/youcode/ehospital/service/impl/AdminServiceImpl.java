@@ -1,6 +1,7 @@
 package ma.youcode.ehospital.service.impl;
 
 import ma.youcode.ehospital.exception.ObjectNotFound;
+import ma.youcode.ehospital.exception.TimeSlotIsNotAvailableException;
 import ma.youcode.ehospital.exception.TransactionFailed;
 import ma.youcode.ehospital.exception.ValidationException;
 import ma.youcode.ehospital.model.Consultation;
@@ -10,6 +11,7 @@ import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.service.IAdminService;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public class AdminServiceImpl implements IAdminService {
@@ -239,11 +241,11 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
-    public void getConsultations() {
+    public List<Consultation> getConsultations() {
         if (consultationRepository.findAll().isEmpty()) {
             throw new ObjectNotFound("No Consultation found");
         }
-        consultationRepository.findAll();
+        return consultationRepository.findAll();
     }
 
     @Override
@@ -255,6 +257,37 @@ public class AdminServiceImpl implements IAdminService {
             throw new ObjectNotFound("Consultation not found");
         }
         return consultationRepository.findById(id);
+    }
+
+    @Override
+    public void updateConsultation(Consultation consultation) {
+        validateConsultation(consultation);
+
+        if (consultationRepository.findById(consultation.getId()) == null) {
+            throw new ObjectNotFound("Consultation not found");
+        }
+
+        if (!isRoomAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Room is not available in this time");
+        }
+
+        if (!isDoctorAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Doctor is not available in this time");
+        }
+        consultationRepository.update(consultation);
+    }
+
+    @Override
+    public void deleteConsultation(Consultation consultation) {
+        if (consultation == null) {
+            throw new ValidationException("Consultation is null");
+        }
+
+        try {
+            consultationRepository.delete(consultation.getId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void validate(Doctor doctor) {
@@ -304,4 +337,55 @@ public class AdminServiceImpl implements IAdminService {
             throw new ValidationException("Room capacity exceeds 10");
         }
     }
+
+    private boolean isRoomAvailable(Consultation consultation) {
+        Room roomById = roomRepository.findById(consultation.getRoom().getId());
+        if (roomById == null) {
+            throw new ValidationException("Room not found");
+        }
+
+        return isAvailable(consultation, roomById.getConsultations());
+    }
+
+    private boolean isDoctorAvailable(Consultation consultation) {
+        Doctor doctorById = doctorRepository.findById(consultation.getDoctor().getId());
+        if (doctorById == null) {
+            throw new ValidationException("Doctor not found");
+        }
+
+        return isAvailable(consultation, doctorById.getConsultations());
+    }
+
+    private boolean isAvailable(Consultation consultation, List<Consultation> consultations) {
+        LocalTime time = consultation.getDate().toLocalTime();
+        int minute = time.getMinute();
+        LocalTime startTime = LocalTime.of(9, 0);
+        LocalTime endTime = LocalTime.of(18, 30);
+
+        if (minute != 0 && minute != 30) {
+            throw new TimeSlotIsNotAvailableException("Minute is not available");
+        }
+
+        if (time.isBefore(startTime) || time.isAfter(endTime)) {
+            throw new TimeSlotIsNotAvailableException("TimeSlot is not available | Consultation time must be between 09:00 and 18:30");
+        }
+
+        return consultations.stream().noneMatch(c -> c.getDate().equals(consultation.getDate()));
+    }
+
+    static void validateConsultation(Consultation consultation) {
+        if (consultation == null) {
+            throw new ValidationException("Consultation is null");
+        }
+        if (consultation.getDoctor() == null) {
+            throw new ValidationException("Doctor is null");
+        }
+        if (consultation.getPatient() == null) {
+            throw new ValidationException("Patient is null");
+        }
+        if (consultation.getRoom() == null) {
+            throw new ValidationException("Room is null");
+        }
+    }
+
 }

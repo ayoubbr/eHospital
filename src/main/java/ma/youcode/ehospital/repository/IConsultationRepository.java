@@ -12,7 +12,7 @@ public interface IConsultationRepository {
 
     Consultation update(Consultation consultation);
 
-    void delete(int id);
+    void delete(int id) throws Exception;
 
     List<Consultation> findAll();
 
