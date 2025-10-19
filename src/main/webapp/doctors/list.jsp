@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<c:if test="${empty sessionScope.user}">
+    <c:redirect url="/index.jsp"/>
+</c:if>
 <html>
 <head>
     <title>Doctors</title>

@@ -1,6 +1,9 @@
 <%@ taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<c:if test="${empty sessionScope.user}">
+    <c:redirect url="/index.jsp"/>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>

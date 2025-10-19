@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<c:if test="${empty sessionScope.user}">
+    <c:redirect url="/index.jsp"/>
+</c:if>
 <html>
 <head>
     <title>Rooms</title>
