@@ -8,15 +8,15 @@ public interface IPersonRepository {
 
     Person save(Person person);
 
-    Person update(Person person);
-
-    void delete(int id);
-
-    List<Person> findAll();
+//    Person update(Person person);
+//
+//    void delete(int id);
+//
+//    List<Person> findAll();
 
     Person findByEmailAndPassword(String email, String password);
 
     Person findByEmail(String email);
 
-    Person findById(int id);
+//    Person findById(int id);
 }

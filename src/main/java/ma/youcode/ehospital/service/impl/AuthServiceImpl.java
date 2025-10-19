@@ -8,7 +8,7 @@ import ma.youcode.ehospital.service.IAuthService;
 
 public class AuthServiceImpl implements IAuthService {
 
-    IPersonRepository personRepository;
+    private final IPersonRepository personRepository;
 
     public AuthServiceImpl(IPersonRepository personRepository) {
         this.personRepository = personRepository;
@@ -16,24 +16,25 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void register(Person person) {
+        if (person.getEmail() == null || person.getPassword() == null ||
+                person.getEmail().isEmpty() || person.getPassword().isEmpty()) {
+            throw new ValidationException("Email or password cannot be empty");
+        }
+
+        if (person.getFirstName() == null || person.getLastName() == null ||
+                person.getFirstName().isEmpty() || person.getLastName().isEmpty()) {
+            throw new ValidationException("Firstname or lastname cannot be empty");
+        }
+
         if (person.getEmail().equals("admin") && person.getPassword().equals("admin")) {
             throw new ValidationException("Invalid email or password");
         }
 
-        if (person.getEmail().isEmpty() || person.getPassword().isEmpty()) {
-            throw new ValidationException("Empty email or password");
-        }
-
-        if (person.getEmail().length() < 4 || person.getEmail().length() > 16) {
-            throw new ValidationException("Email too short or too long");
-        }
-
         if (person.getPassword().length() < 4 || person.getPassword().length() > 16) {
-            throw new ValidationException("Password too short or too long");
+            throw new ValidationException("Password must be between 4 and 16 characters");
         }
 
-        Person byEmail = personRepository.findByEmail(person.getEmail());
-        if (byEmail != null) {
+        if (personRepository.findByEmail(person.getEmail()) != null) {
             throw new ValidationException("Email already exists");
         }
 
