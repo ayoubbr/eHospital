@@ -71,7 +71,7 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public List<Doctor> getDoctors() throws ValidationException {
         if (doctorRepository.findAll().isEmpty()) {
-            throw new ValidationException("No Doctor found");
+            throw new ObjectNotFound("No Doctor found");
         }
 
         return doctorRepository.findAll();

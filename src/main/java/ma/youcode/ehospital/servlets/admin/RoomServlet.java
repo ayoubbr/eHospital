@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ma.youcode.ehospital.exception.ObjectNotFound;
 import ma.youcode.ehospital.model.Room;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.repository.impl.*;
@@ -69,9 +70,17 @@ public class RoomServlet extends HttpServlet {
                 }
                 break;
             default:
-                List<Room> rooms = adminService.getRooms();
-                request.setAttribute("rooms", rooms);
-                request.getRequestDispatcher("/rooms/list.jsp").forward(request, response);
+                try {
+                    List<Room> rooms = adminService.getRooms();
+                    request.setAttribute("rooms", rooms);
+                    request.getRequestDispatcher("/rooms/list.jsp").forward(request, response);
+                } catch (ObjectNotFound e) {
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.getRequestDispatcher("/rooms/list.jsp").forward(request, response);
+                } catch (Exception e) {
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
                 break;
         }
     }

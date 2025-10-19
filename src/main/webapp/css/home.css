@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #ffffff;
+    color: #000000;
+    line-height: 1.6;
+    padding: 40px 20px;
+}
+
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #000000;
+    animation: fadeInDown 0.8s ease;
+}
+
+.animal-container {
+    margin: 40px 0;
+    animation: fadeInUp 1s ease 0.3s both;
+}
+
+/* Cute Owl SVG Animation */
+.owl {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    animation: bobbing 3s ease-in-out infinite;
+}
+
+@keyframes bobbing {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.owl-eye {
+    animation: blink 3s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%,
+    10%,
+    20%,
+    100% {
+        cy: 45;
+        r: 8;
+    }
+    5%,
+    15% {
+        cy: 50;
+        r: 3;
+    }
+}
+
+.error-message {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px 20px;
+    border-left: 4px solid #000000;
+    margin-bottom: 30px;
+    font-style: italic;
+    animation: slideIn 0.5s ease;
+}
+
+.navigation {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #000000;
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    border: 1px solid #000000;
+    transition: all 0.3s ease;
+    display: inline-block;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.nav-link:hover::before {
+    left: 0;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.nav-link:active {
+    transform: translateY(0);
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

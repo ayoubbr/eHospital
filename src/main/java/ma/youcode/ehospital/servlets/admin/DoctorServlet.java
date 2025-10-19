@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ma.youcode.ehospital.exception.ObjectNotFound;
 import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.model.Doctor;
 import ma.youcode.ehospital.repository.*;
@@ -79,9 +80,18 @@ public class DoctorServlet extends HttpServlet {
                 }
                 break;
             default:
-                List<Doctor> doctors = adminService.getDoctors();
-                request.setAttribute("doctors", doctors);
-                request.getRequestDispatcher("/doctors/list.jsp").forward(request, response);
+                try {
+                    List<Doctor> doctors = adminService.getDoctors();
+                    request.setAttribute("doctors", doctors);
+                    request.getRequestDispatcher("/doctors/list.jsp").forward(request, response);
+                } catch (ObjectNotFound e) {
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.getRequestDispatcher("/doctors/list.jsp").forward(request, response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
                 break;
         }
     }
@@ -94,7 +104,7 @@ public class DoctorServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String role = "Doctor";
+        String role = "DOCTOR";
         String specialty = request.getParameter("specialty");
 
         int departmentId = Integer.parseInt(request.getParameter("department_id"));

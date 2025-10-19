@@ -49,8 +49,6 @@ public class AppStartupListener implements ServletContextListener {
 
             adminService.save(admin);
             System.out.println("✅ Default admin created: admin@ehospital.com / admin");
-        } else {
-            System.out.println("ℹ️ Admin already exists, skipping creation.");
         }
     }
 

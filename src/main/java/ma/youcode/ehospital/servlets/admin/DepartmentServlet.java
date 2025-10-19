@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ma.youcode.ehospital.exception.ObjectNotFound;
 import ma.youcode.ehospital.model.Department;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.repository.impl.*;
@@ -68,9 +69,18 @@ public class DepartmentServlet extends HttpServlet {
                 }
                 break;
             default:
-                List<Department> departments = adminService.getDepartments();
-                request.setAttribute("departments", departments);
-                request.getRequestDispatcher("/departments/list.jsp").forward(request, response);
+                try {
+                    List<Department> departments = adminService.getDepartments();
+                    request.setAttribute("departments", departments);
+                    request.getRequestDispatcher("/departments/list.jsp").forward(request, response);
+                } catch (ObjectNotFound e) {
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.getRequestDispatcher("/departments/list.jsp").forward(request, response);
+                } catch (Exception e) {
+                    request.setAttribute("errorMessage", e.getMessage());
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+
                 break;
         }
     }

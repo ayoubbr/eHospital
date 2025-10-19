@@ -55,7 +55,7 @@ public class RegisterServlet extends HttpServlet {
             patient.setFirstName(firstName);
             patient.setLastName(lastName);
             patient.setPassword(password);
-            patient.setRole("Patient");
+            patient.setRole("PATIENT");
 
             authService.register(patient);
 

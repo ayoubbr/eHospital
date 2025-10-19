@@ -1,16 +1,29 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Youcode
-  Date: 19/10/2025
-  Time: 12:21
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSP - ADMIN</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
 </head>
 <body>
-    welcome to admin dashboard
+<div class="admin-container">
+    <h1>Admin Dashboard</h1>
+
+    <c:if test="${not empty errorMessage}">
+        <div class="error-message">
+                ${errorMessage}
+        </div>
+    </c:if>
+
+    <nav class="navigation">
+        <a href="${pageContext.request.contextPath}/rooms" class="nav-link">Rooms</a>
+        <a href="${pageContext.request.contextPath}/departments" class="nav-link">Departments</a>
+        <a href="${pageContext.request.contextPath}/doctors" class="nav-link">Doctors</a>
+        <a href="${pageContext.request.contextPath}/consultations" class="nav-link">Consultations</a>
+    </nav>
+</div>
 </body>
 </html>

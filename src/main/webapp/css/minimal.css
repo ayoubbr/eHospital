@@ -8,9 +8,12 @@ body {
     font-family: "Times New Roman", Times, serif;
     background-color: #ffffff;
     color: #000000;
-    padding: 40px;
     line-height: 1.6;
-    max-width: 900px;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -21,23 +24,76 @@ h4,
 h5,
 h6 {
     font-weight: normal;
-    margin-bottom: 20px;
-    letter-spacing: 0.5px;
+    letter-spacing: 2px;
+    animation: fadeInDown 0.8s ease;
 }
 
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #000000;
+    text-align: center;
+}
+
+/* Updated link styling to match admin dashboard with borders and hover effects */
 a {
     color: #000000;
-    text-decoration: underline;
+    text-decoration: none;
+    padding: 12px 24px;
+    border: 1px solid #000000;
+    display: inline-block;
+    margin: 5px;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
 }
 
 a:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+a:active {
+    transform: translateY(0);
+}
+
+/* Added styling for navigation links container */
+.navigation {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.nav-link {
     text-decoration: none;
+    color: #000000;
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    border: 1px solid #000000;
+    transition: all 0.3s ease;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+
+.nav-link:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.nav-link:active {
+    transform: translateY(0);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+    animation: fadeInUp 0.8s ease 0.2s both;
 }
 
 th,
@@ -96,9 +152,9 @@ input[type="time"]:focus,
 select:focus,
 textarea:focus {
     outline: none;
-    /*border: 2px solid #000000;*/
-    /*padding: 9px 11px;*/
-    /*box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);*/
+    border: 2px solid #000000;
+    padding: 9px 11px;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 select {
@@ -138,6 +194,28 @@ span.error {
     margin-left: 120px;
     border-left: 3px solid #000000;
     padding-left: 10px;
+    animation: slideIn 0.5s ease;
+}
+
+/* Updated error container styling to match admin dashboard */
+.error-container {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px 20px;
+    border-left: 4px solid #000000;
+    margin-bottom: 30px;
+    font-style: italic;
+    animation: slideIn 0.5s ease;
+}
+
+.no-data-message {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px 20px;
+    border-left: 4px solid #000000;
+    margin: 30px 0;
+    font-style: italic;
+    animation: slideIn 0.5s ease;
 }
 
 input.error,
@@ -191,4 +269,37 @@ input[type="submit"]:disabled:hover {
 
 br {
     line-height: 2;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
