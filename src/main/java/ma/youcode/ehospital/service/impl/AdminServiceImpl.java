@@ -17,16 +17,20 @@ public class AdminServiceImpl implements IAdminService {
     IDepartmentRepository departmentRepository;
     IRoomRepository roomRepository;
     IPatientRepository patientRepository;
+    IAdminRepository adminRepository;
 
     public AdminServiceImpl(IDoctorRepository doctorRepository,
                             IConsultationRepository consultationRepository,
                             IDepartmentRepository departmentRepository,
-                            IRoomRepository roomRepository, IPatientRepository patientRepository) {
+                            IRoomRepository roomRepository,
+                            IPatientRepository patientRepository,
+                            IAdminRepository adminRepository) {
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
         this.departmentRepository = departmentRepository;
         this.roomRepository = roomRepository;
         this.patientRepository = patientRepository;
+        this.adminRepository = adminRepository;
     }
 
     @Override
@@ -270,7 +274,6 @@ public class AdminServiceImpl implements IAdminService {
         return consultationRepository.findById(id);
     }
 
-
     @Override
     public void createConsultation(Consultation consultation) {
         validateConsultation(consultation);
@@ -316,7 +319,6 @@ public class AdminServiceImpl implements IAdminService {
             throw new RuntimeException(e);
         }
     }
-
 
     @Override
     public List<Patient> getPatients() throws ValidationException {
@@ -425,6 +427,14 @@ public class AdminServiceImpl implements IAdminService {
         if (consultation.getRoom() == null) {
             throw new ValidationException("Room is null");
         }
+    }
+
+    public boolean hasAnyAdmin() {
+        return !adminRepository.findAll().isEmpty();
+    }
+
+    public void save(Admin admin) {
+        adminRepository.save(admin);
     }
 
 }

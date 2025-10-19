@@ -46,6 +46,7 @@ public class RegisterServlet extends HttpServlet {
             req.getRequestDispatcher("/auth/register.jsp").forward(req, resp);
             return;
         }
+
         Patient patient = null;
 
         try {

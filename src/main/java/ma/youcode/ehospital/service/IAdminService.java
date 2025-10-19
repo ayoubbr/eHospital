@@ -51,5 +51,9 @@ public interface IAdminService {
     void deleteConsultation(Consultation consultation);
 
     List<Patient> getPatients();
+
+    boolean hasAnyAdmin();
+
+    void save(Admin admin);
 }
 

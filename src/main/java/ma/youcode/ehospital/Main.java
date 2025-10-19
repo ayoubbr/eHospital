@@ -31,10 +31,11 @@ public class Main {
         IConsultationRepository consultationRepository = new ConsultationRepositoryImpl();
         IDepartmentRepository departmentRepository = new DepartmentRepositoryImpl();
         IRoomRepository roomRepository = new RoomRepositoryImpl();
+        IAdminRepository adminRepository = new AdminRepositoryImpl();
 
 
         IAdminService adminService = new AdminServiceImpl(doctorRepository, consultationRepository,
-                departmentRepository, roomRepository, patientRepository);
+                departmentRepository, roomRepository, patientRepository, adminRepository);
 
         IPatientService patientService = new PatientServiceImpl(consultationRepository,
                 doctorRepository, roomRepository);

@@ -47,17 +47,19 @@ public class AuthServiceImpl implements IAuthService {
             throw new ValidationException("Empty email or password");
         }
 
-        Person person2 = personRepository.findByEmailAndPassword(person.getEmail(), person.getPassword());
+        Person foundPerson = personRepository.findByEmailAndPassword(person.getEmail(), person.getPassword());
 
-        if (person2 == null) {
+        if (foundPerson == null) {
             throw new ValidationException("Invalid email or password");
         }
 
-        return person;
+        return foundPerson;
     }
 
     @Override
     public void logout() {
         // TO DO LATER
     }
+
+
 }

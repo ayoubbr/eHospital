@@ -8,7 +8,8 @@
 </head>
 <body>
 <c:if test="${not empty errorMessage}">
-    <div style="background-color: #f8d7da; color: #842029; padding: 10px; border-radius: 5px;">
+    <div style="background-color: #f8d7da; color: #842029; padding: 10px;
+    border-radius: 5px;">
             ${errorMessage}
     </div>
 </c:if>
@@ -16,14 +17,14 @@
 <h2>Login</h2>
 <form action="${pageContext.request.contextPath}/login" method="post">
     <label for="email">Email :</label>
-    <input id="email" name="email" type="email" value="${param.email}"/><br>
+    <input id="email" name="email" type="email" required><br>
 
-    <label for="password">Mot de passe :</label>
-    <input id="password" name="password" type="password"/><br>
+    <label for="password">Password :</label>
+    <input id="password" name="password" type="password" required><br>
 
-    <button type="submit">Se connecter</button>
+    <button type="submit">Login</button>
 </form>
 
-<a href="${pageContext.request.contextPath}/auth/register.jsp">S'inscrire</a>
+<a href="${pageContext.request.contextPath}/auth/register.jsp">Don't have an account? Register</a>
 </body>
 </html>
