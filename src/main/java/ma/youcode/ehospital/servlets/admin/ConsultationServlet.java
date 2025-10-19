@@ -25,19 +25,29 @@ public class ConsultationServlet extends HttpServlet {
     private IConsultationRepository consultationRepository = new ConsultationRepositoryImpl();
     private IDepartmentRepository departmentRepo = new DepartmentRepositoryImpl();
     private IRoomRepository roomRepo = new RoomRepositoryImpl();
+    private IPatientRepository patientRepo = new PatientRepositoryImpl();
 
-    private IAdminService adminService = new AdminServiceImpl(doctorRepo, consultationRepository, departmentRepo, roomRepo);
+    private IAdminService adminService = new AdminServiceImpl(doctorRepo, consultationRepository,
+            departmentRepo, roomRepo, patientRepo);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+
         if (action == null) {
             action = "list";
         }
 
         switch (action) {
             case "new":
+                List<Doctor> doctors = adminService.getDoctors();
+                List<Patient> patients = adminService.getPatients();
+                List<Room> rooms = adminService.getRooms();
+                request.setAttribute("statuses", Status.values());
+                request.setAttribute("doctors", doctors);
+                request.setAttribute("patients", patients);
+                request.setAttribute("rooms", rooms);
                 request.setAttribute("consultation", new Consultation());
                 request.getRequestDispatcher("/consultations/form.jsp").forward(request, response);
                 break;
@@ -46,6 +56,7 @@ public class ConsultationServlet extends HttpServlet {
                     int id = Integer.parseInt(request.getParameter("id"));
                     Consultation consultation = adminService.getConsultationById(id);
                     request.setAttribute("consultation", consultation);
+                    getLists(request);
                     request.getRequestDispatcher("/consultations/form.jsp").forward(request, response);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -95,6 +106,16 @@ public class ConsultationServlet extends HttpServlet {
         }
     }
 
+    private void getLists(HttpServletRequest request) {
+        List<Doctor> doctorsList = adminService.getDoctors();
+        List<Patient> patientsList = adminService.getPatients();
+        List<Room>  roomsList = adminService.getRooms();
+        request.setAttribute("statuses", Status.values());
+        request.setAttribute("doctors", doctorsList);
+        request.setAttribute("patients", patientsList);
+        request.setAttribute("rooms", roomsList);
+    }
+
     private void backToConsultationsList(HttpServletRequest request, HttpServletResponse response, Exception e) throws ServletException, IOException {
         List<Consultation> consultations = adminService.getConsultations();
         if (!consultations.isEmpty()) {
@@ -108,36 +129,59 @@ public class ConsultationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         int id = request.getParameter("id") == null || request.getParameter("id").isEmpty() ? 0 : Integer.parseInt(request.getParameter("id"));
 
         String date = request.getParameter("date");
         String report = request.getParameter("report");
         String status = request.getParameter("status");
         Doctor doctor = adminService.getDoctorById(Integer.parseInt(request.getParameter("doctor_id")));
+        Patient patient = adminService.getPatientById(Integer.parseInt(request.getParameter("patient_id")));
         Room room = adminService.getRoomById(Integer.parseInt(request.getParameter("room_id")));
 
-        Consultation consultation;
 
-        try {
-            consultation = adminService.getConsultationById(id);
+        Consultation consultation;
+        if (id == 0) {
+            consultation = new Consultation();
             consultation.setDate(LocalDateTime.parse(date));
             consultation.setReport(report);
             consultation.setStatus(Status.valueOf(status));
             consultation.setDoctor(doctor);
             consultation.setRoom(room);
+            consultation.setPatient(patient);
             try {
-                adminService.updateConsultation(consultation);
+                adminService.createConsultation(consultation);
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("errorMessage", e.getMessage());
+                getLists(request);
                 request.setAttribute("consultation", consultation);
                 request.getRequestDispatcher("/consultations/form.jsp").forward(request, response);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("errorMessage", e.getMessage());
-            request.getRequestDispatcher("/consultations/list.jsp").forward(request, response);
+        } else {
+            try {
+                consultation = adminService.getConsultationById(id);
+                consultation.setDate(LocalDateTime.parse(date));
+                consultation.setReport(report);
+                consultation.setStatus(Status.valueOf(status));
+                consultation.setDoctor(doctor);
+                consultation.setPatient(patient);
+                consultation.setRoom(room);
+                try {
+                    adminService.updateConsultation(consultation);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorMessage", e.getMessage());
+                    getLists(request);
+                    request.setAttribute("consultation", consultation);
+                    request.getRequestDispatcher("/consultations/form.jsp").forward(request, response);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("errorMessage", e.getMessage());
+                request.getRequestDispatcher("/consultations/list.jsp").forward(request, response);
+            }
         }
         response.sendRedirect("consultations");
     }

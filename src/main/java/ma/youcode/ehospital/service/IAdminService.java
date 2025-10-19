@@ -1,9 +1,6 @@
 package ma.youcode.ehospital.service;
 
-import ma.youcode.ehospital.model.Consultation;
-import ma.youcode.ehospital.model.Department;
-import ma.youcode.ehospital.model.Doctor;
-import ma.youcode.ehospital.model.Room;
+import ma.youcode.ehospital.model.*;
 
 import java.util.List;
 
@@ -18,6 +15,8 @@ public interface IAdminService {
     List<Doctor> getDoctors();
 
     Doctor getDoctorById(int id);
+
+    Patient getPatientById(int id);
 
     void createDepartment(Department department);
 
@@ -45,8 +44,12 @@ public interface IAdminService {
 
     Consultation getConsultationById(int id);
 
+    void createConsultation(Consultation consultation);
+
     void updateConsultation(Consultation consultation);
 
     void deleteConsultation(Consultation consultation);
+
+    List<Patient> getPatients();
 }
 

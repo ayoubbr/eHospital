@@ -34,7 +34,7 @@ public class Main {
 
 
         IAdminService adminService = new AdminServiceImpl(doctorRepository, consultationRepository,
-                departmentRepository, roomRepository);
+                departmentRepository, roomRepository, patientRepository);
 
         IPatientService patientService = new PatientServiceImpl(consultationRepository,
                 doctorRepository, roomRepository);

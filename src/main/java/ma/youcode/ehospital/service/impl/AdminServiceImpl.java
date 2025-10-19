@@ -2,12 +2,8 @@ package ma.youcode.ehospital.service.impl;
 
 import ma.youcode.ehospital.exception.ObjectNotFound;
 import ma.youcode.ehospital.exception.TimeSlotIsNotAvailableException;
-import ma.youcode.ehospital.exception.TransactionFailed;
 import ma.youcode.ehospital.exception.ValidationException;
-import ma.youcode.ehospital.model.Consultation;
-import ma.youcode.ehospital.model.Department;
-import ma.youcode.ehospital.model.Doctor;
-import ma.youcode.ehospital.model.Room;
+import ma.youcode.ehospital.model.*;
 import ma.youcode.ehospital.repository.*;
 import ma.youcode.ehospital.service.IAdminService;
 
@@ -20,15 +16,17 @@ public class AdminServiceImpl implements IAdminService {
     IConsultationRepository consultationRepository;
     IDepartmentRepository departmentRepository;
     IRoomRepository roomRepository;
+    IPatientRepository patientRepository;
 
     public AdminServiceImpl(IDoctorRepository doctorRepository,
                             IConsultationRepository consultationRepository,
                             IDepartmentRepository departmentRepository,
-                            IRoomRepository roomRepository) {
+                            IRoomRepository roomRepository, IPatientRepository patientRepository) {
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
         this.departmentRepository = departmentRepository;
         this.roomRepository = roomRepository;
+        this.patientRepository = patientRepository;
     }
 
     @Override
@@ -86,6 +84,19 @@ public class AdminServiceImpl implements IAdminService {
         }
 
         return doctorRepository.findById(id);
+    }
+
+    @Override
+    public Patient getPatientById(int id) throws ValidationException, ObjectNotFound {
+        if (id <= 0) {
+            throw new ValidationException("Patient id is not valid");
+        }
+
+        if (patientRepository.findById(id) == null) {
+            throw new ObjectNotFound("Patient not found");
+        }
+
+        return patientRepository.findById(id);
     }
 
     @Override
@@ -259,6 +270,22 @@ public class AdminServiceImpl implements IAdminService {
         return consultationRepository.findById(id);
     }
 
+
+    @Override
+    public void createConsultation(Consultation consultation) {
+        validateConsultation(consultation);
+
+        if (!isRoomAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Room is not available in this time");
+        }
+
+        if (!isDoctorAvailable(consultation)) {
+            throw new TimeSlotIsNotAvailableException("Doctor is not available in this time");
+        }
+
+        consultationRepository.save(consultation);
+    }
+
     @Override
     public void updateConsultation(Consultation consultation) {
         validateConsultation(consultation);
@@ -288,6 +315,16 @@ public class AdminServiceImpl implements IAdminService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    @Override
+    public List<Patient> getPatients() throws ValidationException {
+        if (patientRepository.findAll().isEmpty()) {
+            throw new ValidationException("No Patient found");
+        }
+
+        return patientRepository.findAll();
     }
 
     private void validate(Doctor doctor) {
@@ -370,7 +407,9 @@ public class AdminServiceImpl implements IAdminService {
             throw new TimeSlotIsNotAvailableException("TimeSlot is not available | Consultation time must be between 09:00 and 18:30");
         }
 
-        return consultations.stream().noneMatch(c -> c.getDate().equals(consultation.getDate()));
+        return consultations.stream()
+                .filter(c -> c.getId() != consultation.getId())
+                .noneMatch(c -> c.getDate().equals(consultation.getDate()));
     }
 
     static void validateConsultation(Consultation consultation) {

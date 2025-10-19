@@ -23,8 +23,10 @@ public class DoctorServlet extends HttpServlet {
     private IDepartmentRepository departmentRepo = new DepartmentRepositoryImpl();
     private IRoomRepository roomRepo = new RoomRepositoryImpl();
 
-    private IAdminService adminService = new AdminServiceImpl(doctorRepo, consultationRepository, departmentRepo, roomRepo);
+    private IPatientRepository patientRepo = new PatientRepositoryImpl();
 
+    private IAdminService adminService = new AdminServiceImpl(doctorRepo, consultationRepository,
+            departmentRepo, roomRepo, patientRepo);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
